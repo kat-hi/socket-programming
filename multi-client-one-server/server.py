@@ -34,7 +34,7 @@ class Connection:
 
 
 def start_server():
-	sock.bind(("127.0.0.1", 12345))
+	sock.bind(("192.168.0.23", 12345))
 	sock.listen(socketbacklog)
 
 

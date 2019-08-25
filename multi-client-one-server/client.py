@@ -4,7 +4,7 @@ import socket as sock
 import threading
 
 
-server_adr = ("127.0.0.1", 12345)
+server_adr = ("192.168.0.23", 12345)
 sock = sock.socket(sock.AF_INET, sock.TCP_NODELAY)
 sock.connect(server_adr)
 
@@ -22,11 +22,10 @@ def receiver():
 if __name__ == "__main__":
 	while True:
 		send=threading.Thread(target=sender, args=())
-		recv=threading.Thread(target=receiver, args=())
+		recv=threading.Thread(target=receiver, args=(), daemon=True)
 		send.start()
 		recv.start()
-		recv.join()
-
+		send.join()
 
 
 
