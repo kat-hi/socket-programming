@@ -15,7 +15,7 @@ def sender():
 
 
 def receiver():
-	msg_recv = str(sock.recv(2048), "UTF-8")
+	msg_recv = str(sock.recv(528), "UTF-8")
 	print(msg_recv)
 
 

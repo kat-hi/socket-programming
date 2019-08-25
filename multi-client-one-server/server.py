@@ -27,7 +27,7 @@ class Connection:
 
 	def receive(self):
 		while True:
-			msg_recv = str(self.socket.recv(2048), "UTF-8")
+			msg_recv = str(self.socket.recv(528), "UTF-8")
 			if msg_recv != '':
 				print(msg_recv)
 				self.sender(msg_recv)
@@ -50,12 +50,6 @@ def update_accepted_connection_list(connection):
 		if not connection_exists:
 			acceptedConnections.append(connection)
 			print("connection added")
-
-# flush
-# statisch
-# jede connection eigene klasse
-# jeder verbindungsthread für sich alleine
-# tcp no delay, set sock opt = für den Clientsocket
 
 
 if __name__ == "__main__":
