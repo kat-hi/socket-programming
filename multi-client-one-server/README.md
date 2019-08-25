@@ -4,4 +4,7 @@ this code runs on several raspberry pi's that got a static ip address. That's wh
 **what happens**<br>
 the server receives a message from any client. This message will be send to all clients that have been registered since the session started but it won't be send to the client that initiate this message. "Registration" happens when a socket connection is established. 
 
+**requirements**
+- python 3
+
 **author**: k.s.
