@@ -27,7 +27,7 @@ class Connection:
 
 	def receive(self):
 		while True:
-			msg_recv = str(self.socket.recv(528), "UTF-8")
+			msg_recv = str(self.socket.recv(512), "UTF-8")
 			if msg_recv != '':
 				print(msg_recv)
 				self.sender(msg_recv)
