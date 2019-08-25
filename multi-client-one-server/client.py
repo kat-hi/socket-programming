@@ -21,10 +21,9 @@ def receiver():
 
 if __name__ == "__main__":
 	while True:
-		send=threading.Thread(target=sender, args=())
-		recv=threading.Thread(target=receiver, args=(), daemon=True)
+		send = threading.Thread(target=sender, args=())
+		threading.Thread(target=receiver, args=(), daemon=True).start()
 		send.start()
-		recv.start()
 		send.join()
 
 

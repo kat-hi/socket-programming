@@ -11,6 +11,7 @@ currentConnection = ''
 acceptedConnections = []
 socketbacklog = 2
 
+
 class Connection:
 	def __init__(self, socket):
 		self.socket = socket
