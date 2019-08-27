@@ -8,37 +8,29 @@ import java.util.Scanner;
 public class Client {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         Socket clientsocket = new Socket("127.0.0.1", 12345);
         PrintWriter out = new PrintWriter(clientsocket.getOutputStream());
-        pingForRegistration(clientsocket, out);
+        pingForRegistration(out);
         BufferedReader in = new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));
         Scanner input = new Scanner(System.in);
 
-        while (True) {
-            new Thread(new ReceiveThread(in)).start();
-            Client.receiveMessage(in);
-            Client.sendMessage(input, out);
+        while (true) {
+            Thread receive = new Thread(new ReceiveThread(in));
+            receive.setDaemon(true);
+            Thread send = new Thread(new SendThread(input,out));
+            receive.start();
+            send.start();
+            send.join();
         }
     }
 
-    public static void pingForRegistration(Socket clientsocket, PrintWriter out) {
+    public static void pingForRegistration(PrintWriter out) {
         out.println("Ping");
     }
 
-    public static void receiveMessage(BufferedReader in) throws IOException {
-        String message = in.readLine();
-        System.out.println(message);
-    }
-
-    public static void sendMessage(Scanner input, PrintWriter out) {
-        String message = input.nextLine();
-        out.println(message);
-    }
-
-
-    static class SendThread implements Runnable{
+      static class SendThread implements Runnable{
         PrintWriter out;
         Scanner input;
 
@@ -49,15 +41,12 @@ public class Client {
 
         @Override
         public void run() {
-            try {
-                Client.receiveMessage(in);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String message = input.nextLine();
+            out.println(message);
         }
     }
 
-    static class ReceiveThread implements Runnable{
+    public static class ReceiveThread implements Runnable{
         BufferedReader in;
 
         public ReceiveThread(BufferedReader in) {
@@ -66,9 +55,18 @@ public class Client {
 
         @Override
         public void run() {
-            Client.sendMessage(input, out);
-
+            String message = null;
+            while(true){
+                try {
+                    message = in.readLine();
+                    break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(message);
+            }
         }
-    }
 
+    }
 }
+
