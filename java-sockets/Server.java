@@ -36,6 +36,7 @@ public class Server{
         @Override
         public void run() {
             try {
+                System.out.printf("Send Thread started");
                 con.sendMessage();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -55,6 +56,7 @@ public class Server{
         @Override
         public void run() {
             try {
+                System.out.println("Receive Thread started");
                 con.receiveMessage();
             } catch (IOException e) {
                 e.printStackTrace();

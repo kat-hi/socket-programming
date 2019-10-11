@@ -19,7 +19,7 @@ public class Client {
         while (true) {
             Thread receive = new Thread(new ReceiveThread(in));
             receive.setDaemon(true);
-            Thread send = new Thread(new SendThread(input,out));
+            Thread send = new Thread(new SendThread(input, out));
             receive.start();
             send.start();
             send.join();
@@ -30,11 +30,11 @@ public class Client {
         out.println("Ping");
     }
 
-      static class SendThread implements Runnable{
+    static class SendThread implements Runnable {
         PrintWriter out;
         Scanner input;
 
-        public SendThread(Scanner input, PrintWriter out){
+        public SendThread(Scanner input, PrintWriter out) {
             this.input = input;
             this.out = out;
         }
@@ -46,7 +46,7 @@ public class Client {
         }
     }
 
-    public static class ReceiveThread implements Runnable{
+    public static class ReceiveThread implements Runnable {
         BufferedReader in;
 
         public ReceiveThread(BufferedReader in) {
@@ -56,7 +56,7 @@ public class Client {
         @Override
         public void run() {
             String message = null;
-            while(true){
+            while (true) {
                 try {
                     message = in.readLine();
                     break;

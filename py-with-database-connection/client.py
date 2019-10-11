@@ -2,9 +2,12 @@
 
 import socket as sock
 import threading
+import yaml
 
-#server_adr = ("192.168.0.23", 12345)
-server_adr = ("127.0.0.1", 1234)
+config = yaml.load(open("config.yaml"))
+
+server_adr = ("192.168.0.23", config.port)
+#server_adr = ("127.0.0.1", 12345)
 sock = sock.socket(sock.AF_INET, sock.TCP_NODELAY)
 sock.connect(server_adr)
 

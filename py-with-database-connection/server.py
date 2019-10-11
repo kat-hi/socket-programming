@@ -6,6 +6,9 @@
 import socket as sock
 import threading
 import databaseConnection
+import yaml
+
+config = yaml.load(open("config.yaml"))
 
 sock = sock.socket(sock.AF_INET, sock.SOCK_STREAM)
 currentConnection = ''
@@ -36,8 +39,8 @@ class Connection:
 
 
 def start_server():
-	#sock.bind(("192.168.0.23", 12345))
-	sock.bind(("127.0.0.1", 1234))
+	sock.bind(("192.168.0.23", config.port))
+	#sock.bind(("127.0.0.1", 1234))
 	sock.listen(socketbacklog)
 
 
@@ -61,5 +64,5 @@ if __name__ == "__main__":
 	while len(acceptedConnections) < socketbacklog:
 		con, adr = sock.accept()
 		update_accepted_connections(con)
-		databaseConnection.insert_client_connection(con.getsockname())
+		databaseConnection.insert_client_connection(sock.getsockname())
 		threading.Thread(target=Connection, args=(con,)).start()
