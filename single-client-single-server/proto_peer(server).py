@@ -7,26 +7,29 @@ specific MAC-addresses),  we'll use a static IP for passing a host into bind()
 
 import socket
 import threading
+import sys
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(("192.168.0.23", 1234))
+server_socket.bind(("127.0.0.1", 12345))
 server_socket.listen(4)
 (con, adr) = server_socket.accept()
 
 print("terminate the session with 'end' ")
-
+EOL = '\r\n'
 
 def __ending__():
 	server_socket.close()
 	print("Server exit.")
+	sys.exit(0)
 
 
 def receiver():
-	while True:
-		msg_recv = str(con.recv(1024), "UTF-8")
-		if msg_recv == "end":
+	msg_recv = ''
+	while EOL not in msg_recv:
+		msg_recv = str(con.recv(8), "UTF-8")
+		if str(msg_recv) == "end":
 			__ending__()
-		elif msg_recv != "":
+		elif str(msg_recv) != "":
 			print("client: " + msg_recv)
 
 

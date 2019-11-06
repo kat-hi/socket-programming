@@ -1,21 +1,22 @@
 import socket
 import threading
+import sys
 
-server_adr = ("192.168.0.23", 1234)
+server_adr = ("127.0.0.1", 12345)
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(server_adr)
 
 print("$ terminate the session with 'end' ")
-
+EOL = '\r\n'
 
 def __ending__():
 	client_socket.close()
 	print("Client exit.")
-	exit(0)
-
+	sys.exit(0)
 
 def sender():
-	while True:
+	msg_send = ''
+	while EOL not in msg_send:
 		msg_send = input()
 		if msg_send == "end":
 			__ending__()
@@ -25,7 +26,7 @@ def sender():
 
 def receiver():
 	while True:
-		msg_recv = str(client_socket.recv(1024), "UTF-8")
+		msg_recv = str(client_socket.recv(8), "UTF-8")
 		print("server: " + msg_recv)
 
 
